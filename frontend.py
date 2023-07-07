@@ -1,5 +1,5 @@
 import streamlit as st
-import connection_file
+import text_connection
 
 
 class FrontEnd:
@@ -19,7 +19,7 @@ class FrontEnd:
         context = ""
 
         if st.button("ASK  ▶"):
-            answer = connection_file.ask_question(
+            answer = text_connection.ask_question(
                 context,
                 new_question,
                 self.api_key)
