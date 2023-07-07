@@ -1,6 +1,8 @@
 import openai
-from IPython.display import Image, display
 import requests
+
+from PIL import Image
+import base64
 
 with open('my apikey.txt', 'r') as file:
     openai.api_key = file.read()
@@ -16,12 +18,15 @@ def generate_images(prompt_message, num_images=4, img_size='256x256'):
     return openai.Image.create(prompt=prompt_message, n=num_images, size=img_size)
 
 
-def plot_images(response):
+def get_images(response):
     """Based on a response plots images"""
+    imgs = []
     for i, resp_i in enumerate(response['data']):
         print(f"This is img #{i}")
         image_url = resp_i['url']
-        display(Image(url=image_url))
+        imgs.append(image_url)
+
+    return imgs
 
 
 def generate_image_variations(response, resp_id, num_images=4, img_size='256x256'):
