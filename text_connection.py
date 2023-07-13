@@ -24,7 +24,7 @@ def extract_text_from_pdf(file_path):
     return text
 
 
-def ask_question(context, question, openai_api_key):
+def ask_question(context, question, openai_api_key, model):
     """Function to ask a question using OpenAI's chat-based API.
     Args:
         context (str): Conversation context.
@@ -46,7 +46,7 @@ def ask_question(context, question, openai_api_key):
     ]
 
     payload = {
-        "model": "gpt-3.5-turbo",
+        "model": model,
         "messages": conversation
     }
 

@@ -18,6 +18,11 @@ class FrontEnd:
 
     def main_page(self):
 
+        model_to_use = st.selectbox(
+            "Select Model to Use",
+            options=["gpt-4", "gpt-3.5-turbo", "text-davinci-003", "text-davinci-002",
+                     "davinci", "curie", "babbage", "ada"])
+
         new_question = st.text_input(label="Enter your question here")
 
         # context = connection_file.read_text_file("product_context.txt")
@@ -27,9 +32,10 @@ class FrontEnd:
             answer = text_connection.ask_question(
                 context,
                 new_question,
-                self.api_key)
+                self.api_key,
+                model_to_use)
 
-            st.write("A: " + answer)
+            st.write(answer)
 
     def img_page(self):
 

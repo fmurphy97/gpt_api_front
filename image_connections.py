@@ -1,9 +1,6 @@
 import openai
 import requests
 
-from PIL import Image
-import base64
-
 with open('my apikey.txt', 'r') as file:
     openai.api_key = file.read()
 
