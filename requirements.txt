@@ -1,0 +1,5 @@
+pdfplumber==0.5.28
+requests==2.26.0
+codecs
+streamlit==0.90.0
+openai==0.30.0
