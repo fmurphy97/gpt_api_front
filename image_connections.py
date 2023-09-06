@@ -1,9 +1,6 @@
 import openai
 import requests
 
-with open('my apikey.txt', 'r') as file:
-    openai.api_key = file.read()
-
 
 def generate_images(prompt_message, num_images=4, img_size='256x256'):
     """

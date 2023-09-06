@@ -2,19 +2,13 @@ import streamlit as st
 import text_connection
 import image_connections
 import os
+import openai
 
 class FrontEnd:
 
     def __init__(self):
 
-        self.api_key = None
-
-        # api_key_filepath = 'my apikey.txt'
-        # if os.path.exists(api_key_filepath):
-        #     with open(api_key_filepath, 'r') as file:
-        #         self.api_key = file.read()
-        # else:
-        #     self.api_key = None
+        openai.api_key = None
 
         self.images_to_gen_count = 1
         self.selected_resolution = "256x256"
@@ -38,7 +32,7 @@ class FrontEnd:
             self.session_messages.append({"role": "user", "content": prompt})
 
             # Get a response and store it in messages
-            response = text_connection.ask_question(context="", question=prompt, openai_api_key=self.api_key,
+            response = text_connection.ask_question(context="", question=prompt, openai_api_key=openai.api_key,
                                                     model=model_to_use)
             self.session_messages.append({"role": "ai", "content": response})
 
@@ -99,10 +93,9 @@ class FrontEnd:
             if st.button("🖼️ Images"):
                 self.change_current_page_function(self.img_page)
 
-            if self.api_key is None:
-                new_api_key = st.text_input("insert apikey")
-                if new_api_key:
-                    self.api_key = new_api_key
+            new_api_key = st.text_input("My API key")
+            if new_api_key:
+                openai.api_key = new_api_key
 
         self.current_page_function()
 
