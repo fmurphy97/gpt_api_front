@@ -4,7 +4,7 @@ import codecs
 
 
 def read_text_file(file_path, encoding='utf-8'):
-    """Function to exctract text from a txt file"""
+    """Function to extract text from a txt file"""
     with codecs.open(file_path, 'r', encoding) as file:
         text = file.read()
     return text

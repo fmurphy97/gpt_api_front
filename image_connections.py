@@ -14,12 +14,12 @@ def generate_images(prompt_message, num_images=4, img_size='256x256'):
 
 def get_images(response):
     """Based on a response plots images"""
-    imgs = []
+    resulting_images = []
     for i, resp_i in enumerate(response['data']):
         image_url = resp_i['url']
-        imgs.append(image_url)
+        resulting_images.append(image_url)
 
-    return imgs
+    return resulting_images
 
 
 def generate_image_variations(response, resp_id, num_images=4, img_size='256x256'):

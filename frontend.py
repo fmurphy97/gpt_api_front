@@ -73,7 +73,8 @@ class FrontEnd:
             img_size=self.selected_resolution)
         self.generated_images = image_connections.get_images(self.last_api_response)
 
-    def main_page(self):
+    @staticmethod
+    def main_page():
         st.title("Chat GPT API")
         st.write("---")
 
