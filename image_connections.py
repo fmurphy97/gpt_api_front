@@ -19,7 +19,6 @@ def get_images(response):
     """Based on a response plots images"""
     imgs = []
     for i, resp_i in enumerate(response['data']):
-        print(f"This is img #{i}")
         image_url = resp_i['url']
         imgs.append(image_url)
 
