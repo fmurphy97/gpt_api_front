@@ -30,6 +30,7 @@ def ask_question(context, question, openai_api_key, model):
         context (str): Conversation context.
         question (str): User's question.
         openai_api_key (str): OpenAI api key
+        model (str): which is the model that will be used to process the prompt into an answer
     Returns:
         str: Assistant's answer.
     """

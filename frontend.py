@@ -1,8 +1,8 @@
 import streamlit as st
 import text_connection
 import image_connections
-import os
 import openai
+
 
 class FrontEnd:
 
@@ -78,8 +78,9 @@ class FrontEnd:
         st.write("---")
 
         st.markdown("The goal of this project is to explore the chat gpt´s api.")
-        st.markdown('To start using it place your api key and click on "New chat" to start generate text, or "Images" to generate images')
-
+        st.markdown(
+            'To start using it place your api key and click on "New chat" to start generate text, '
+            'or "Images" to generate images')
 
     def change_current_page_function(self, new_page):
         self.session_messages = []
@@ -97,8 +98,6 @@ class FrontEnd:
 
             if st.button("🚹 Images"):
                 self.change_current_page_function(self.img_page)
-
-
 
         self.current_page_function()
 
