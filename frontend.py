@@ -9,12 +9,12 @@ class FrontEnd:
 
         self.api_key = None
 
-        api_key_filepath = 'my apikey.txt'
-        if os.path.exists(api_key_filepath):
-            with open(api_key_filepath, 'r') as file:
-                self.api_key = file.read()
-        else:
-            self.api_key = None
+        # api_key_filepath = 'my apikey.txt'
+        # if os.path.exists(api_key_filepath):
+        #     with open(api_key_filepath, 'r') as file:
+        #         self.api_key = file.read()
+        # else:
+        #     self.api_key = None
 
         self.images_to_gen_count = 1
         self.selected_resolution = "256x256"
