@@ -24,11 +24,11 @@ def extract_text_from_pdf(file_path):
     return text
 
 
-def ask_question(context, question, openai_api_key, model):
+def ask_question(messages, openai_api_key, model, context=None):
     """Function to ask a question using OpenAI's chat-based API.
     Args:
         context (str): Conversation context.
-        question (str): User's question.
+        messages (list[dict[str,str]]): The past messages of the conversation, in the format of role and context
         openai_api_key (str): OpenAI api key
         model (str): which is the model that will be used to process the prompt into an answer
     Returns:
@@ -40,16 +40,12 @@ def ask_question(context, question, openai_api_key, model):
     }
     api_url = "https://api.openai.com/v1/chat/completions"
 
-    conversation = [
-        {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": context},
-        {"role": "user", "content": question}
-    ]
+    conversation = [{"role": "system", "content": "You are a helpful assistant."}]
+    conversation.extend(messages)
+    if context:
+        conversation.append({"role": "user", "content": context})
 
-    payload = {
-        "model": model,
-        "messages": conversation
-    }
+    payload = {"model": model, "messages": conversation}
 
     response = requests.post(api_url, headers=headers, json=payload)
     response_json = response.json()

@@ -33,9 +33,9 @@ class FrontEnd:
             self.session_messages.append({"role": "user", "content": prompt})
 
             # Get a response and store it in messages
-            response = text_connection.ask_question(context="", question=prompt, openai_api_key=openai.api_key,
+            response = text_connection.ask_question(messages=self.session_messages, openai_api_key=openai.api_key,
                                                     model=model_to_use)
-            self.session_messages.append({"role": "ai", "content": response})
+            self.session_messages.append({"role": "assistant", "content": response})
 
         # Display all messages
         for message in self.session_messages:
