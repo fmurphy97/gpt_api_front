@@ -23,8 +23,9 @@ class FrontEnd:
 
         model_to_use = st.selectbox(
             "Select Model to Use",
-            options=["gpt-4", "gpt-3.5-turbo", "text-davinci-003", "text-davinci-002",
+            options=["gpt-3.5-turbo", "gpt-4", "text-davinci-003", "text-davinci-002",
                      "davinci", "curie", "babbage", "ada"])
+        st.write("---")
 
         # React to user input
         if prompt := st.chat_input("Send a message"):
@@ -51,7 +52,7 @@ class FrontEnd:
         # Create the dropdown
         self.selected_resolution = st.selectbox("Select resolution", available_resolutions)
 
-        if st.button("CREATE ▶", key="button to create images"):
+        if st.button("⏩ Generate", key="button to create images"):
             self.last_api_response = image_connections.generate_images(
                 prompt_message=new_question, num_images=self.images_to_gen_count, img_size=self.selected_resolution)
             self.generated_images = image_connections.get_images(self.last_api_response)
@@ -73,12 +74,12 @@ class FrontEnd:
         self.generated_images = image_connections.get_images(self.last_api_response)
 
     def main_page(self):
-        st.title("🤖 Chat GPT API")
+        st.title("Chat GPT API")
         st.write("---")
 
-        cols = st.columns(2)
-        cols[0].write("Click on new chat to start generate text")
-        cols[1].write("Click on images to generate images")
+        st.markdown("The goal of this project is to explore the chat gpt´s api.")
+        st.markdown('To start using it place your api key and click on "New chat" to start generate text, or "Images" to generate images')
+
 
     def change_current_page_function(self, new_page):
         self.session_messages = []
@@ -87,15 +88,17 @@ class FrontEnd:
 
     def run(self):
         with st.sidebar:
-            if st.button("🔤 New Chat"):
-                self.change_current_page_function(self.text_gen_page)
-
-            if st.button("🖼️ Images"):
-                self.change_current_page_function(self.img_page)
-
             new_api_key = st.text_input("My API key")
             if new_api_key:
                 openai.api_key = new_api_key
+
+            if st.button("🔤 New Chat"):
+                self.change_current_page_function(self.text_gen_page)
+
+            if st.button("🚹 Images"):
+                self.change_current_page_function(self.img_page)
+
+
 
         self.current_page_function()
 
