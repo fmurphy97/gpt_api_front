@@ -2,9 +2,6 @@ import streamlit as st
 import text_connection
 import image_connections
 
-st.title("🤖 Chat GPT API")
-st.write("---")
-
 
 class FrontEnd:
 
@@ -19,45 +16,49 @@ class FrontEnd:
         self.last_api_response = None
         self.generated_images = []
 
-    def main_page(self):
+        self.current_page_function = self.main_page
+        self.session_messages = []
+
+    def text_gen_page(self):
 
         model_to_use = st.selectbox(
             "Select Model to Use",
             options=["gpt-4", "gpt-3.5-turbo", "text-davinci-003", "text-davinci-002",
                      "davinci", "curie", "babbage", "ada"])
 
-        new_question = st.text_input(label="Enter your question here")
+        # React to user input
+        if prompt := st.chat_input("Send a message"):
+            # Add it to messages
+            self.session_messages.append({"role": "user", "content": prompt})
 
-        # context = connection_file.read_text_file("product_context.txt")
-        context = ""
+            # Get a response and store it in messages
+            response = text_connection.ask_question(context="", question=prompt, openai_api_key=self.api_key,
+                                                    model=model_to_use)
+            self.session_messages.append({"role": "ai", "content": response})
 
-        if st.button("ASK  ▶", key="button to ask question"):
-            answer = text_connection.ask_question(
-                context,
-                new_question,
-                self.api_key,
-                model_to_use)
-
-            st.write(answer)
+        # Display all messages
+        for message in self.session_messages:
+            with st.chat_message(message["role"]):
+                st.markdown(message["content"])
 
     def img_page(self):
 
         new_question = st.text_input(label="Enter your prompt here")
-        self.images_to_gen_count = st.slider('Select a number', 1, 10)
+        self.images_to_gen_count = st.slider('Select number of images', 1, 10)
 
         # Define the available definitions
-        definitions = ["256x256", "512x512", "1024x1024"]
+        available_resolutions = ["256x256", "512x512", "1024x1024"]
         # Create the dropdown
-        self.selected_resolution = st.selectbox("Select Definition:", definitions)
+        self.selected_resolution = st.selectbox("Select resolution", available_resolutions)
 
         if st.button("CREATE ▶", key="button to create images"):
             self.last_api_response = image_connections.generate_images(
                 prompt_message=new_question, num_images=self.images_to_gen_count, img_size=self.selected_resolution)
             self.generated_images = image_connections.get_images(self.last_api_response)
 
-        self.display_imgs_with_regen_button()
+        self.display_images_with_regen_button()
 
-    def display_imgs_with_regen_button(self):
+    def display_images_with_regen_button(self):
         total_images = len(self.generated_images)
         if total_images > 0:
             cols = st.columns(total_images)
@@ -71,14 +72,29 @@ class FrontEnd:
             img_size=self.selected_resolution)
         self.generated_images = image_connections.get_images(self.last_api_response)
 
+    def main_page(self):
+        st.title("🤖 Chat GPT API")
+        st.write("---")
+
+        cols = st.columns(2)
+        cols[0].write("Click on new chat to start generate text")
+        cols[1].write("Click on images to generate images")
+
+    def change_current_page_function(self, new_page):
+        self.session_messages = []
+        self.generated_images = []
+        self.current_page_function = new_page
+
     def run(self):
-        tabs = st.tabs(["Text", "Image"])
+        with st.sidebar:
+            if st.button("🔤 New Chat"):
+                self.change_current_page_function(self.text_gen_page)
 
-        with tabs[0]:
-            self.main_page()
+            st.write("---")
+            if st.button("🖼️ Images"):
+                self.change_current_page_function(self.img_page)
 
-        with tabs[1]:
-            self.img_page()
+        self.current_page_function()
 
 
 if "front_end_instance" not in st.session_state:
