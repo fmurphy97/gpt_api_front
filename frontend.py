@@ -3,6 +3,8 @@ import text_connection
 import image_connections
 import openai
 
+st.set_page_config(page_title="GPT API", page_icon="🟢")
+
 
 class FrontEnd:
 
