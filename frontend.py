@@ -23,8 +23,7 @@ class FrontEnd:
 
         model_to_use = st.selectbox(
             "Select Model to Use",
-            options=["gpt-3.5-turbo", "gpt-4", "text-davinci-003", "text-davinci-002",
-                     "davinci", "curie", "babbage", "ada"])
+            options=["gpt-3.5-turbo", "gpt-4"])
         st.write("---")
 
         # React to user input
